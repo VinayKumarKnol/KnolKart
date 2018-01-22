@@ -9,5 +9,4 @@ class Items(
              val category: String
            ) extends Ordered[Items] {
   override def compare(that: Items): Int = (this.price - that.price) intValue
-
 }
