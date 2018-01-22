@@ -36,5 +36,4 @@ object Database {
         List[T]()
     }
   }
-
 }
