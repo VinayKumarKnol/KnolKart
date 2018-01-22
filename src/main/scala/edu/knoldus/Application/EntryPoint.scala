@@ -1,13 +1,13 @@
 package edu.knoldus.Application
 
-import edu.knoldus.inventory.Person
+import edu.knoldus.inventory.{Database, Person}
 import org.apache.log4j.Logger
 
 import scala.io.StdIn
 
 class EntryPoint{
   val log: Logger = Logger.getLogger(this.getClass)
-
+  val database: Database = new Database()
   def customerModule() = {
     val person = new Person(1001,"","","")
     log.info(s"\nEnter Choice :\n1. Search Item\n2. Get Detailed Description")
@@ -16,7 +16,7 @@ class EntryPoint{
     choice match {
       case 1 => {log.info(s"\nEnter Choice :\n1. Search By Category\n2. Search By Vendor\n3. Search By ID")
         log.info(s"\nYour Choice : ")
-        person.searchChoice(StdIn.readInt)
+        person.searchChoice(StdIn.readInt, database.searchItem)
       }
       case 2 => {
         log.info(s"\nCategory : ")
@@ -26,6 +26,7 @@ class EntryPoint{
         log.info(s"\nID : ")
         val id: String = StdIn.readLine()
         val map = Map("category" -> category, "vendor" -> vendor, "id" -> id )
+        database.searchItem(map)
       }
     }
   }
