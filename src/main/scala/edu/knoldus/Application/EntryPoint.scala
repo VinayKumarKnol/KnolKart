@@ -9,7 +9,7 @@ class EntryPoint{
   val log: Logger = Logger.getLogger(this.getClass)
 
   def customerModule() = {
-    val person = new Person()
+    val person = new Person(1001,"","","")
     log.info(s"\nEnter Choice :\n1. Search Item\n2. Get Detailed Description")
     log.info(s"\nYour Choice : ")
     val choice = StdIn.readInt()
@@ -19,6 +19,13 @@ class EntryPoint{
         person.searchChoice(StdIn.readInt)
       }
       case 2 => {
+        log.info(s"\nCategory : ")
+        val category: String = StdIn.readLine()
+        log.info(s"\nVendor : ")
+        val vendor: String = StdIn.readLine()
+        log.info(s"\nID : ")
+        val id: String = StdIn.readLine()
+        val map = Map("category" -> category, "vendor" -> vendor, "id" -> id )
       }
     }
   }
