@@ -21,13 +21,17 @@ class Database {
     val vendorResult: List[Items] = itemList.filter((entry: Items) => entry.vendorId == vendor)
     val idResult: List[Items] = itemList.filter((entry: Items) => entry.id == id)
 
-    categoryResult :: vendorResult :: idResult
+    categoryResult ::: vendorResult ::: idResult
 
   }
 
-  def searchPerson(): List[Person] = {
-
+  def searchPerson(query: Map[String, String]): List[Person] = {
+    //name -> " "
+    val name: String = query.getOrElse("name", "null")
+    personList.filter(person => person.name == name)
   }
+
+
 
 }
 
