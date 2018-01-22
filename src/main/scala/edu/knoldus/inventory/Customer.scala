@@ -3,6 +3,4 @@ package edu.knoldus.inventory
 class Customer (
                val id: Int,
                val name: String,
-               val address: String) {
-  def shoppingList (): List[Items]
-}
+               val address: String)
