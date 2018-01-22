@@ -12,7 +12,7 @@ object Database {
 
   val log: Logger = Logger.getLogger(this.getClass)
 
-  def writeToJSON(inventory: List[Items]): Boolean = {
+  def writeToJSON[T](inventory: List[T]): Boolean = {
 
     try {
       val writer = new PrintWriter(new File("database.json"))
@@ -28,14 +28,14 @@ object Database {
     }
   }
 
-  def readFromJSON(): List[Items] = {
+  def readFromJSON[T](): List[T] = {
     try {
       val bufferedSource = Source.fromFile(new File("Secret.json")).mkString
-      val updatedList: List[Items] = read[List[Items]](bufferedSource)
+      val updatedList: List[T] = read[List[T]](bufferedSource)
       updatedList
     } catch {
       case except: Exception => log.info(s"\nError: ${except.getCause}")
-        List[Items]()
+        List[T]()
     }
   }
 
