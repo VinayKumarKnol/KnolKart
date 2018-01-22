@@ -23,8 +23,6 @@ object Database {
     } catch {
       case except: Exception => log.info(s"\nError: ${except.getMessage}")
         false
-    } finally {
-
     }
   }
 
