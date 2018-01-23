@@ -18,7 +18,7 @@ class EntryPoint {
       case 1 =>
         log.info(s"\nEnter Choice :\n1. Search By Category\n2. Search By Vendor\n3. Search By ID")
         log.info(s"\nYour Choice : ")
-        person.searchChoice(StdIn.readInt, database.searchItem)
+        person.searchChoice(StdIn.readInt)
 
       case 2 =>
         log.info(s"\nCategory : ")
