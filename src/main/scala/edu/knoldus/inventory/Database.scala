@@ -1,19 +1,17 @@
 package edu.knoldus.inventory
 
 import java.io.{File, PrintWriter}
+
 import org.apache.log4j.Logger
 import org.json4s.DefaultFormats
 import org.json4s.jackson.Serialization._
+
 import scala.io.Source
 
 
 class Database {
-  val item1: Items = new Items(1001, 111, "Wireless Mouse", 200.0, 100, "Electronics")
-  val item2: Items = new Items(1002, 111, "Wireless Keyboard", 250.0, 100, "Electronics")
-  val person1: Person = new Person(111, "Dell", "Vendor", "Nehru Place")
-  val person2: Person = new Person(301, "Sudeep James Tirkey", "Customer", "Ghaziabad")
-  val itemList: List[Items] = List(item1, item2)
-  val personList: List[Person] = List(person1, person2)
+  val itemList: List[Items] = Database.readFromJSON("items.json").asInstanceOf[List[Items]]
+  val personList: List[Person] = Database.readFromJSON("items.json").asInstanceOf[List[Person]]
 
   def searchItem(query: Map[String, String]): List[Items] = {
     //toInt on Vendor , Id
@@ -39,18 +37,22 @@ class Database {
     personList.filter(person => person.id == id)
   }
 
+  override def toString: String = s"The database has \nItems: ${itemList.size}" +
+    s"\nPersons: ${personList.size}"
 
 }
 
 object Database extends App {
 
   val log: Logger = Logger.getLogger(this.getClass)
-
+  val list = readFromJSON("items.json").asInstanceOf[List[Items]]
+  val person = readFromJSON("person.json").asInstanceOf[List[Person]]
   val obj = new Database()
 
   def writeToJSON(inventory: List[Commodities], fileName: String): Boolean = {
     try {
       implicit def formats: DefaultFormats = DefaultFormats
+
       val writer = new PrintWriter(new File(fileName))
       val json = writePretty(inventory)
       writer.write(json)
@@ -65,16 +67,17 @@ object Database extends App {
   def readFromJSON(fileName: String): List[Commodities] = {
     try {
       implicit def formats: DefaultFormats = DefaultFormats
-      val bufferedSource = Source.fromFile(new File(fileName)).mkString
-      read[List[Commodities]](bufferedSource)
 
+      val bufferedSource = Source.fromFile(new File(fileName)).mkString
+      fileName match {
+        case "person.json" => read[List[Person]](bufferedSource)
+        case "items.json" => read[List[Items]](bufferedSource)
+      }
     } catch {
-      case except: Exception => log.info(s"\nError: ${except.getCause}")
+      case except: Exception => log.info(s"\nError: ${except.getMessage}")
         List[Commodities]()
+
     }
   }
-
-  val list = writeToJSON(obj.itemList, "items.json")
-  val person = writeToJSON(obj.personList, "person.json")
-  println(list)
+  log.info(s"$obj")
 }
