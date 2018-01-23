@@ -2,7 +2,6 @@ package edu.knoldus.inventory
 
 import java.io.{File, PrintWriter}
 
-import org.apache.log4j.Logger
 import org.json4s.DefaultFormats
 import org.json4s.jackson.Serialization._
 
@@ -44,7 +43,6 @@ class Database {
 
 object Database extends App {
 
-  val log: Logger = Logger.getLogger(this.getClass)
   val list = readFromJSON("items.json").asInstanceOf[List[Items]]
   val person = readFromJSON("person.json").asInstanceOf[List[Person]]
   val obj = new Database()

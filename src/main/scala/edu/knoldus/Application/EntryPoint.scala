@@ -1,6 +1,6 @@
 package edu.knoldus.Application
 
-import edu.knoldus.inventory.{Database, Person}
+import edu.knoldus.inventory._
 import org.apache.log4j.Logger
 
 import scala.io.StdIn
@@ -45,7 +45,6 @@ class EntryPoint {
 
 object EntryPoint {
   val entry = new EntryPoint
-  val log: Logger = Logger.getLogger(this.getClass)
   log.info(s"\nEnter Choice :\n1. Customer Module\n2. Inventory Module")
   log.info(s"\nYour Choice : ")
   val choice: Int = StdIn.readInt()
