@@ -1,9 +1,9 @@
 package edu.knoldus.inventory
 
+import edu.knoldus.inventory.UtilityMethods._
 import org.apache.log4j.Logger
 
 import scala.io.StdIn
-import edu.knoldus.inventory.UtilityMethods._
 
 class Person(
               override val id: Int,
@@ -43,6 +43,16 @@ class Person(
       case 3 =>
         val map = Map("category" -> "0", "vendor" -> "0", "id" -> input)
         find(map)
+    }
+  }
+
+  override def updateAttribute(attribute: String, newValue: String): Person = {
+    attribute match {
+      case "id" => new Person(newValue.toInt, name, category, address)
+      case "name" => new Person(id, newValue, category, address)
+      case "category" => new Person(id, name, newValue, address)
+      case "address" => new Person(id, name, category, newValue)
+      case _ => this
     }
   }
 }

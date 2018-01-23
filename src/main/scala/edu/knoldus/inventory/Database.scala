@@ -36,6 +36,15 @@ class Database {
     personList.filter(person => person.id == id)
   }
 
+  def addToList(whichList: String, commodity: Commodities): Boolean = {
+    whichList match {
+      case "items" => Database.writeToJSON(itemList :+ commodity, "items.json")
+      case "person" => Database.writeToJSON(personList :+ commodity, "person.json")
+      case _ => false
+    }
+  }
+
+
   override def toString: String = s"The database has \nItems: ${itemList.size}" +
     s"\nPersons: ${personList.size}"
 
@@ -77,5 +86,6 @@ object Database extends App {
 
     }
   }
+
   log.info(s"$obj")
 }

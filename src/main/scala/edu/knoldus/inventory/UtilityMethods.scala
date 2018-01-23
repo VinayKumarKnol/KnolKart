@@ -22,4 +22,5 @@ object UtilityMethods {
       case "low to high" => list.sortWith((first, second) => first.price < second.price)
     }
   }
+
 }
