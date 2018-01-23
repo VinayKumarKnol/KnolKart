@@ -1,5 +1,7 @@
 package edu.knoldus.inventory
 
+import scala.io.StdIn
+
 class Person(
               override val id: Int,
               val name: String,
@@ -16,5 +18,43 @@ class Person(
       case _ => this
     }
   }
-}
 
+  def addItem(database: Database): Boolean = {
+    if (this.category == "Vendor") {
+      log.info(s"\nEnter Name : ")
+      val name = StdIn.readLine()
+      log.info(s"\nEnter Price : ")
+      val price = StdIn.readDouble()
+      log.info(s"\nEnter Quantity : ")
+      val quantity = StdIn.readInt()
+      log.info(s"\nEnter Category : ")
+      val category = StdIn.readLine()
+      val initialList = database.itemList
+      val id = initialList.max(id)
+      val newItem: Items = new Items(id.id + 1, this.id, name, price, quantity, category)
+      database.addToList("items", newItem)
+    }
+    else
+      false
+  }
+
+  def restockItem(database: Database): Boolean = {
+    if (this.category == "Vendor") {
+      log.info(s"\nEnter ID : ")
+      val id = StdIn.readInt()
+      val map = Map("vendor" -> this.id.toString, "id" -> id.toString)
+      val result = database.searchItem(map)
+      if (result.nonEmpty) {
+        val top=result.head
+        log.info(s"\nEnter Quantity : ")
+        val quantity = StdIn.readInt()
+        val updates = new Items(top.id,top.vendorId,top.name,top.price,quantity,top.category)
+        database.addToList("items",updates)
+      }
+      else
+        false
+    }
+    else
+      false
+  }
+}
