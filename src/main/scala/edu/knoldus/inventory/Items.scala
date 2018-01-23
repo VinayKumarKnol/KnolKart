@@ -1,7 +1,7 @@
 package edu.knoldus.inventory
 
 class Items(
-             val id: Int,
+          override val id: Int,
              val vendorId: Int,
              val name: String,
              val price: Double,

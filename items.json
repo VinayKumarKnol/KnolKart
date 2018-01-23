@@ -1,0 +1,15 @@
+[ {
+  "id" : 1001,
+  "vendorId" : 111,
+  "name" : "Wireless Mouse",
+  "price" : 200.0,
+  "quantity" : 100,
+  "category" : "Electronics"
+}, {
+  "id" : 1002,
+  "vendorId" : 111,
+  "name" : "Wireless Keyboard",
+  "price" : 250.0,
+  "quantity" : 100,
+  "category" : "Electronics"
+} ]

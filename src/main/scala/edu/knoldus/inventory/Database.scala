@@ -1,12 +1,11 @@
 package edu.knoldus.inventory
 
 import java.io.{File, PrintWriter}
-
 import org.apache.log4j.Logger
 import org.json4s.DefaultFormats
 import org.json4s.jackson.Serialization._
-
 import scala.io.Source
+
 
 class Database {
   val item1: Items = new Items(1001, 111, "Wireless Mouse", 200.0, 100, "Electronics")
@@ -49,11 +48,11 @@ object Database extends App {
 
   val obj = new Database()
 
-  def writeToJSON[T <: Commodities](inventory: List[T], fileName: String): Boolean = {
+  def writeToJSON(inventory: List[Commodities], fileName: String): Boolean = {
     try {
       implicit def formats: DefaultFormats = DefaultFormats
       val writer = new PrintWriter(new File(fileName))
-      val json = write(inventory)
+      val json = writePretty(inventory)
       writer.write(json)
       writer.close()
       true
@@ -63,16 +62,19 @@ object Database extends App {
     }
   }
 
-  def readFromJSON[T <: Commodities](fileName: String): List[T] = {
+  def readFromJSON(fileName: String): List[Commodities] = {
     try {
       implicit def formats: DefaultFormats = DefaultFormats
       val bufferedSource = Source.fromFile(new File(fileName)).mkString
-      read[List[T]](bufferedSource)
+      read[List[Commodities]](bufferedSource)
+
     } catch {
       case except: Exception => log.info(s"\nError: ${except.getCause}")
-        List[T]()
+        List[Commodities]()
     }
   }
 
-  writeToJSON[Items](obj.itemList, "items.json")
+  val list = writeToJSON(obj.itemList, "items.json")
+  val person = writeToJSON(obj.personList, "person.json")
+  println(list)
 }

@@ -1,0 +1,11 @@
+[ {
+  "id" : 111,
+  "name" : "Dell",
+  "category" : "Vendor",
+  "address" : "Nehru Place"
+}, {
+  "id" : 301,
+  "name" : "Sudeep James Tirkey",
+  "category" : "Customer",
+  "address" : "Ghaziabad"
+} ]

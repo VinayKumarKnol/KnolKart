@@ -6,7 +6,7 @@ import scala.io.StdIn
 import edu.knoldus.inventory.UtilityMethods._
 
 class Person(
-              val id: Int,
+              override val id: Int,
               val name: String,
               val category: String, // customer vendor
               val address: String) extends Commodities with Ordered[Person] {
