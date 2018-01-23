@@ -44,7 +44,7 @@ object Database {
 
   val log: Logger = Logger.getLogger(this.getClass)
 
-  def writeToJSON[T](inventory: List[T], fileName: String): Boolean = {
+  def writeToJSON[T <: Commodities](inventory: List[T], fileName: String): Boolean = {
     try {
       val writer = new PrintWriter(new File(fileName))
       val json = write(inventory)
@@ -57,13 +57,13 @@ object Database {
     }
   }
 
-  def readFromJSON(fileName: String): List[Items]  = {
+  def readFromJSON[T <: Commodities](fileName: String): List[T] = {
     try {
       val bufferedSource = Source.fromFile(new File(fileName)).mkString
       fileName match {
-        case "items.json" =>  read[List[T]](bufferedSource).asInstanceOf[List[Items]]
-        case "person.json" => read[List[T]](bufferedSource).asInstanceOf[List[Person]]
-       }
+        case "items.json" => read[List[T]](bufferedSource)
+        case "person.json" => read[List[T]](bufferedSource)
+      }
 
     } catch {
       case except: Exception => log.info(s"\nError: ${except.getCause}")
