@@ -1,8 +1,8 @@
 package edu.knoldus.Application
 
 import edu.knoldus.inventory._
+import edu.knoldus.inventory.UtilityMethods._
 import org.apache.log4j.Logger
-
 import scala.io.StdIn
 
 class EntryPoint {
@@ -10,7 +10,7 @@ class EntryPoint {
   val database: Database = new Database()
 
   def customerModule(): Unit = {
-    val person = new Person(1001, "", "", "")
+    //val person = new Person(1001, "", "", "")
     log.info(s"\nEnter Choice :\n1. Search Item\n2. Get Detailed Description")
     log.info(s"\nYour Choice : ")
     val choice = StdIn.readInt()
@@ -18,7 +18,7 @@ class EntryPoint {
       case 1 =>
         log.info(s"\nEnter Choice :\n1. Search By Category\n2. Search By Vendor\n3. Search By ID")
         log.info(s"\nYour Choice : ")
-        person.searchChoice(StdIn.readInt)
+        searchChoice(StdIn.readInt, database)
 
       case 2 =>
         log.info(s"\nCategory : ")
@@ -52,5 +52,6 @@ object EntryPoint {
     case 1 => entry.customerModule()
     case 2 => entry.inventoryModule()
     case _ => log.info(s"Wrong Choice")
+
   }
 }

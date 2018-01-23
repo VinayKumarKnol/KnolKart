@@ -1,12 +1,10 @@
 package edu.knoldus.inventory
 
 import java.io.{File, PrintWriter}
-
 import org.json4s.DefaultFormats
 import org.json4s.jackson.Serialization._
 
 import scala.io.Source
-
 
 class Database {
   val itemList: List[Items] = Database.readFromJSON("items.json").asInstanceOf[List[Items]]
@@ -20,13 +18,11 @@ class Database {
     val categoryResult: List[Items] = itemList.filter((entry: Items) => entry.category == category)
     val vendorResult: List[Items] = itemList.filter((entry: Items) => entry.vendorId == vendor)
     val idResult: List[Items] = itemList.filter((entry: Items) => entry.id == id)
-
     categoryResult ::: vendorResult ::: idResult
 
   }
 
   def searchPerson(query: Map[String, String]): List[Person] = {
-    //name -> " "
     val name: String = query.getOrElse("name", "null")
     personList.filter(person => person.name == name)
   }
@@ -38,8 +34,10 @@ class Database {
 
   def addToList(whichList: String, commodity: Commodities): Boolean = {
     whichList match {
-      case "items" => Database.writeToJSON(itemList :+ commodity, "items.json")
-      case "person" => Database.writeToJSON(personList :+ commodity, "person.json")
+      case "items" =>
+        if (itemList.contains(commodity)) true else Database.writeToJSON(itemList :+ commodity, "items.json")
+      case "person" =>
+        if (personList.contains(commodity)) true else Database.writeToJSON(personList :+ commodity, "person.json")
       case _ => false
     }
   }
@@ -50,11 +48,11 @@ class Database {
 
 }
 
-object Database extends App {
+object Database {
 
-  val list = readFromJSON("items.json").asInstanceOf[List[Items]]
-  val person = readFromJSON("person.json").asInstanceOf[List[Person]]
-  val obj = new Database()
+  val list: List[Items] = readFromJSON("items.json").asInstanceOf[List[Items]]
+  val person: List[Person] = readFromJSON("person.json").asInstanceOf[List[Person]]
+  val obj: Database = new Database()
 
   def writeToJSON(inventory: List[Commodities], fileName: String): Boolean = {
     try {
@@ -87,5 +85,4 @@ object Database extends App {
     }
   }
 
-  log.info(s"$obj")
 }
