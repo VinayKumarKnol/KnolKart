@@ -7,7 +7,7 @@ class Items(
              val price: Double,
              val quantity: Int,
              val category: String
-           ) extends Ordered[Items] {
+           ) extends Commodities with Ordered[Items] {
   override def compare(that: Items): Int = (this.price - that.price) intValue
 }
 

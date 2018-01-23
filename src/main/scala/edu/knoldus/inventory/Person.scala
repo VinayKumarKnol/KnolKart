@@ -6,7 +6,7 @@ class Person(
               val id: Int,
               val name: String,
               val category: String, // customer vendor
-              val address: String) extends Ordered[Person] {
+              val address: String) extends Commodities with Ordered[Person] {
   override def compare(that: Person): Int = this.name.compareTo(that.name)
 
   def searchChoice(choice: Int, find: Map[String, String] => List[Items]): List[Items] = {

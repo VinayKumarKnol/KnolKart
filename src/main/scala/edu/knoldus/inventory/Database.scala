@@ -31,6 +31,10 @@ class Database {
     personList.filter(person => person.name == name)
   }
 
+  def serachPersonById(query: Map[String, Int]): List[Person] = {
+    val id: Int = query.getOrElse("id", 0)
+    personList.filter(person => person.id == id)
+  }
 
 
 }
@@ -41,7 +45,6 @@ object Database {
   val log: Logger = Logger.getLogger(this.getClass)
 
   def writeToJSON[T](inventory: List[T], fileName: String): Boolean = {
-
     try {
       val writer = new PrintWriter(new File(fileName))
       val json = write(inventory)
@@ -54,11 +57,14 @@ object Database {
     }
   }
 
-  def readFromJSON[T](fileName: String): List[T] = {
+  def readFromJSON(fileName: String): List[Items]  = {
     try {
       val bufferedSource = Source.fromFile(new File(fileName)).mkString
-      val updatedList: List[T] = read[List[T]](bufferedSource)
-      updatedList
+      fileName match {
+        case "items.json" =>  read[List[T]](bufferedSource).asInstanceOf[List[Items]]
+        case "person.json" => read[List[T]](bufferedSource).asInstanceOf[List[Person]]
+       }
+
     } catch {
       case except: Exception => log.info(s"\nError: ${except.getCause}")
         List[T]()
