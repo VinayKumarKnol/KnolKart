@@ -35,7 +35,7 @@ class Database {
     personList.filter(person => person.name == name)
   }
 
-  def serachPersonById(query: Map[String, Int]): List[Person] = {
+  def searchPersonById(query: Map[String, Int]): List[Person] = {
     val id: Int = query.getOrElse("id", 0)
     personList.filter(person => person.id == id)
   }
@@ -50,9 +50,8 @@ object Database extends App {
   val obj = new Database()
 
   def writeToJSON[T <: Commodities](inventory: List[T], fileName: String): Boolean = {
-    implicit def formats: DefaultFormats = DefaultFormats
-
     try {
+      implicit def formats: DefaultFormats = DefaultFormats
       val writer = new PrintWriter(new File(fileName))
       val json = write(inventory)
       writer.write(json)
@@ -65,15 +64,10 @@ object Database extends App {
   }
 
   def readFromJSON[T <: Commodities](fileName: String): List[T] = {
-    implicit def formats: DefaultFormats = DefaultFormats
-
     try {
+      implicit def formats: DefaultFormats = DefaultFormats
       val bufferedSource = Source.fromFile(new File(fileName)).mkString
-      fileName match {
-        case "items.json" => read[List[T]](bufferedSource)
-        case "person.json" => read[List[T]](bufferedSource)
-      }
-
+      read[List[T]](bufferedSource)
     } catch {
       case except: Exception => log.info(s"\nError: ${except.getCause}")
         List[T]()
