@@ -9,8 +9,12 @@ import org.json4s.jackson.Serialization._
 import scala.io.Source
 
 class Database {
-  val itemList: List[Items] = Database.readFromJSON[Items]("items.json")
-  val personList: List[Person] = Database.readFromJSON[Person]("person.json")
+  val item1: Items = new Items(1001,111,"Wireless Mouse",200.0,100,"Electronics")
+  val item2: Items = new Items(1002,111,"Wireless Keyboard",250.0,100,"Electronics")
+  val person1: Person = new Person(111,"Dell","Vendor","Nehru Place")
+  val person2: Person = new Person(301,"Sudeep James Tirkey","Customer","Ghaziabad")
+  val itemList: List[Items] = List(item1,item2)
+  val personList: List[Person] = List(person1,person2)
 
   def searchItem(query: Map[String, String]): List[Items] = {
     //toInt on Vendor , Id
@@ -35,13 +39,12 @@ class Database {
 
 }
 
-object Database {
-  implicit def formats: DefaultFormats = DefaultFormats
+object Database extends App {
 
   val log: Logger = Logger.getLogger(this.getClass)
-
+  val obj = new Database()
   def writeToJSON[T](inventory: List[T], fileName: String): Boolean = {
-
+    implicit def formats: DefaultFormats = DefaultFormats
     try {
       val writer = new PrintWriter(new File(fileName))
       val json = write(inventory)
@@ -55,6 +58,7 @@ object Database {
   }
 
   def readFromJSON[T](fileName: String): List[T] = {
+    implicit def formats: DefaultFormats = DefaultFormats
     try {
       val bufferedSource = Source.fromFile(new File(fileName)).mkString
       val updatedList: List[T] = read[List[T]](bufferedSource)
@@ -64,4 +68,6 @@ object Database {
         List[T]()
     }
   }
+
+  writeToJSON[Items](obj.itemList,"items.json")
 }
