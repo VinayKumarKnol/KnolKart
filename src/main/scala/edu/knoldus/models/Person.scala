@@ -53,7 +53,11 @@ class Person(
       database.addToList("items", newItem)
     }
     else
-      false
+      {
+        false
+
+      }
+
   }
 
   /**
