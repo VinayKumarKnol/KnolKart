@@ -1,4 +1,4 @@
-package edu.knoldus.inventory
+package edu.knoldus.models
 
 import scala.io.StdIn
 
