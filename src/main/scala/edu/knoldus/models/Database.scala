@@ -45,6 +45,7 @@ class Database {
   }
 
 
+
   override def toString: String = s"The database has \nItems: ${itemList.size}" +
     s"\nPersons: ${personList.size}"
 
@@ -86,4 +87,5 @@ object Database {
 
     }
   }
+
 }

@@ -19,9 +19,12 @@ class Items(
       case "category" => new Items(id, vendorId, name, price, quantity, newValue)
       case _ => this
     }
+
   }
 
   override def compare(that: Items): Int = (this.price - that.price) intValue
+
+  override def toString: String = s"  $id  |  $vendorId  |  $name  |  $price  |  $quantity  | $category"
 }
 
 

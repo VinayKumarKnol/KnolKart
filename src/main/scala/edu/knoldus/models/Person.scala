@@ -58,4 +58,10 @@ class Person(
     else
       false
   }
+
+  def buyItem(database: Database): List[Items] = {
+    val  newItemList : List[Items] = database.itemList
+  }
+
+  override toString: String = s"  $id  | $name  | $category  | $address"
 }
