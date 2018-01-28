@@ -1,7 +1,6 @@
 package edu.knoldus.inventory
 
 import edu.knoldus.models.{Database, Items, Person}
-import org.apache.log4j.Logger
 
 import scala.io.StdIn
 
@@ -15,7 +14,6 @@ object UtilityMethods {
   }
 
   def searchChoice(choice: Int, database: Database): List[Items] = {
-    val log: Logger = Logger.getLogger(this.getClass)
     log.info(s"\nEnter Search Parameters : ")
     val input: String = StdIn.readLine()
     log.info(s"\nSort By :\n1. Name\n2. Price")

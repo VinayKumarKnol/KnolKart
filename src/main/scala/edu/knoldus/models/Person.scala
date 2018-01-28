@@ -1,6 +1,7 @@
 package edu.knoldus.models
 
 import scala.io.StdIn
+import edu.knoldus.inventory.log
 
 class Person(
               override val id: Int,
