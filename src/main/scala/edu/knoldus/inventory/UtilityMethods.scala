@@ -1,6 +1,8 @@
 package edu.knoldus.inventory
 
+import edu.knoldus.models.{Database, Items, Person}
 import org.apache.log4j.Logger
+
 import scala.io.StdIn
 
 object UtilityMethods {

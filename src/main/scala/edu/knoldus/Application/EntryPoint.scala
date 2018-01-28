@@ -2,7 +2,9 @@ package edu.knoldus.Application
 
 import edu.knoldus.inventory._
 import edu.knoldus.inventory.UtilityMethods._
+import edu.knoldus.models.Database
 import org.apache.log4j.Logger
+
 import scala.io.StdIn
 
 class EntryPoint {

@@ -1,6 +1,8 @@
-package edu.knoldus.inventory
+package edu.knoldus.models
 
 import java.io.{File, PrintWriter}
+
+import edu.knoldus.inventory._
 import org.json4s.DefaultFormats
 import org.json4s.jackson.Serialization._
 
