@@ -12,6 +12,11 @@ class Database {
   val itemList: List[Items] = Database.readFromJSON("items.json").asInstanceOf[List[Items]]
   val personList: List[Person] = Database.readFromJSON("items.json").asInstanceOf[List[Person]]
 
+  /**
+    * Pre Condition: Updated List
+    * @param query: A Map of (id -> int, vendor -> id(int), category -> String)
+    * @return :  List Of Searched item is returned
+    */
   def searchItem(query: Map[String, String]): List[Items] = {
     //toInt on Vendor , Id
     val category: String = query.getOrElse("category", " ")
@@ -24,16 +29,35 @@ class Database {
 
   }
 
+  /**
+    * Pre Condition : Requires an updated list of person
+    *You can search the person by name
+    * @param query: Map( name -> String)
+    * @return
+    */
   def searchPerson(query: Map[String, String]): List[Person] = {
     val name: String = query.getOrElse("name", "null")
     personList.filter(person => person.name == name)
   }
 
+  /**
+    * Pre Condition: Requires an updated list of items
+    *
+    *Search on person through Id
+    * @param query: Map(id -> Int )
+    * @return : List of Person
+    */
   def searchPersonById(query: Map[String, Int]): List[Person] = {
     val id: Int = query.getOrElse("id", 0)
     personList.filter(person => person.id == id)
   }
 
+  /**
+    *Pre Condition : None
+    * @param whichList : Specify which list to update
+    * @param commodity : send the object of that type.
+    * @return : Boolean values can be used to check success of the operation
+    */
   def addToList(whichList: String, commodity: Commodities): Boolean = {
     whichList match {
       case "items" =>
@@ -44,8 +68,26 @@ class Database {
     }
   }
 
+  /**
+    *Pre Condition : Before using this operation make sure you have an updated list
+    * @param itemsBought : Specify what items you have bought. requires only ids
+    * @return : Boolean value can used to check success of the operation
+    */
+  def updateQuantities(itemsBought: List[Items]): Boolean = {
+    val updatedList: List[Items] = for {
+      purchased <- itemsBought
+      itemInDatabase <- itemList
+      if purchased.id == itemInDatabase.id
+    } yield itemInDatabase.updateAttribute("quantity", (itemInDatabase.quantity - 1).toString)
 
+    Database.writeToJSON(updatedList, "items.json")
 
+  }
+
+  /**
+    *Returns minimal stats about Database: Tolal counts
+    * @return
+    */
   override def toString: String = s"The database has \nItems: ${itemList.size}" +
     s"\nPersons: ${personList.size}"
 
@@ -57,6 +99,12 @@ object Database {
   val person: List[Person] = readFromJSON("person.json").asInstanceOf[List[Person]]
   val obj: Database = new Database()
 
+  /**
+    *Use it safely. Works with either of the category
+    * @param inventory : Send the updated list of commodities.
+    * @param fileName : Name of file to store
+    * @return : boolean status to check the success of operation
+    */
   def writeToJSON(inventory: List[Commodities], fileName: String): Boolean = {
     try {
       implicit def formats: DefaultFormats = DefaultFormats
@@ -72,6 +120,12 @@ object Database {
     }
   }
 
+  /**
+    *Pre Condition: Make sure the file exist or You have performed writeToJson
+    * Works with either of the category
+    * @param fileName: We need the file name
+    * @return : List of either type of Commodities
+    */
   def readFromJSON(fileName: String): List[Commodities] = {
     try {
       implicit def formats: DefaultFormats = DefaultFormats

@@ -1,15 +1,27 @@
 package edu.knoldus.models
 
-import scala.io.StdIn
 import edu.knoldus.inventory.log
+
+import scala.io.StdIn
 
 class Person(
               override val id: Int,
               val name: String,
               val category: String, // customer vendor
               val address: String) extends Commodities with Ordered[Person] {
+  /**
+    *
+    * @param that: Send the object of compare with
+    * @return
+    */
   override def compare(that: Person): Int = this.name.compareTo(that.name)
 
+  /**
+    *Modifies the attribute and makes a new object of the type
+    * @param attribute : attribute you would like to change. ONLY IN LOWERCASE
+    * @param newValue  : Stringify the value always!!
+    * @return : New Object of the type
+    */
   override def updateAttribute(attribute: String, newValue: String): Person = {
     attribute match {
       case "id" => new Person(newValue.toInt, name, category, address)
@@ -20,6 +32,11 @@ class Person(
     }
   }
 
+  /**
+    *Updates the items.json. Requires you to read from json to update the list
+    * @param database : requires Database class's instance
+    * @return : Boolean to ensure success
+    */
   def addItem(database: Database): Boolean = {
     if (this.category == "Vendor") {
       log.info(s"\nEnter Name : ")
@@ -39,29 +56,32 @@ class Person(
       false
   }
 
-  def restockItem(database: Database): Boolean = {
-    if (this.category == "vendor") {
-      log.info(s"\nEnter ID : ")
-      val id = StdIn.readInt()
-      val map = Map("vendor" -> this.id.toString, "id" -> id.toString)
-      val result = database.searchItem(map)
-      if (result.nonEmpty) {
-        val top=result.head
-        log.info(s"\nEnter Quantity : ")
-        val quantity = StdIn.readInt()
-        val updates = new Items(top.id,top.vendorId,top.name,top.price,quantity,top.category)
-        database.addToList("items",updates)
+  /**
+    *Post Condition: Make sure to send the output of this function to
+    *updateQuantities of class Database.
+    * @param updateItemList : read the list from json and send it here.
+    * @return : returns a new list of items you have bought
+    */
+  def buyItem(updateItemList: List[Items]): List[Items] = {
+    log.info("Item's List ")
+    log.info("  ID  |  Vendor  |  Name  |  Price  |  Quantity  |  Category  |")
+    updateItemList
+      .foreach {
+        (item) => log.info(item)
       }
-      else
-        false
-    }
-    else
-      false
+    log.info("Enter Id/s <Make sure you have spaces: ")
+    val ids: List[String] = StdIn.readLine().split(" ").toList
+    val foundItems: List[Items] = for {
+      item <- updateItemList
+      requiredItems <- ids
+      if item.id == requiredItems.toInt
+    } yield item
+    foundItems
   }
 
-  def buyItem(database: Database): List[Items] = {
-    val  newItemList : List[Items] = database.itemList
-  }
-
-  override toString: String = s"  $id  | $name  | $category  | $address"
+  /**
+    *Row description of the object
+    * @return
+    */
+  override def toString: String = s"  $id  | $name  | $category  | $address"
 }

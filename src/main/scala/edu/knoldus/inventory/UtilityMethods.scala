@@ -13,6 +13,13 @@ object UtilityMethods {
     }
   }
 
+  /**
+    * Searching utility
+    *
+    * @param choice   : Requires choice to decide on parameters
+    * @param database : Database class's instance is required to access list
+    * @return : List of items satisfying the search
+    */
   def searchChoice(choice: Int, database: Database): List[Items] = {
     log.info(s"\nEnter Search Parameters : ")
     val input: String = StdIn.readLine()
@@ -29,6 +36,14 @@ object UtilityMethods {
     }
   }
 
+  /**
+    * Returns the list based on your search
+    *
+    * @param choice : To decided on params
+    * @param input  : to specify category , vendor, and Id. String value required
+    * @param find   : find function takes a map and returns the list of successfuly found items
+    * @return
+    */
   def getList(choice: Int, input: String, find: Map[String, String] => List[Items]): List[Items] = {
     choice match {
       case 1 =>
@@ -45,6 +60,16 @@ object UtilityMethods {
     }
   }
 
+  /**
+    * Sorting other than the default ones.
+    * SQL EXAMPLE :
+    * SELCT * FROM ITEMS SORTBY /SOME ATTRIBUTE/ [ASC/DESC]
+    *
+    * @param attribute : specify the attribute through which you want to search
+    * @param itemList  : specify the list on which you want to search
+    * @param direction : ascending or descending order
+    * @return : Returns the sorted list
+    */
   def sortBy(attribute: String, itemList: List[Items], direction: String): List[Items] = {
     (attribute, direction) match {
       case ("price", "high to low") => itemList.sortWith((first, second) => first.price > second.price)
@@ -54,6 +79,13 @@ object UtilityMethods {
     }
   }
 
+  /**
+    * Sort the person list according to id
+    *
+    * @param list      : List of persons
+    * @param direction : direction to be specified: Order- ASC or DESC
+    * @return : Returns list of person
+    */
   def sortById(list: List[Person])(direction: String): List[Person] = {
     direction match {
       case "high to low" => list.sortWith((first, second) => first.id > second.id)

@@ -8,7 +8,12 @@ class Items(
              val quantity: Int,
              val category: String
            ) extends Commodities with Ordered[Items] {
-
+  /**
+    *Update the attirbute of the items class
+    * @param attribute : String value required in lowercase
+    * @param newValue : Stringify the value always!!
+    * @return : get the update item instance
+    */
   override def updateAttribute(attribute: String, newValue: String): Items = {
     attribute match {
       case "id" => new Items(newValue.toInt, vendorId, name, price, quantity, category)
@@ -22,8 +27,17 @@ class Items(
 
   }
 
+  /**
+    *overridden method to sort the list. Default sort is on price
+    * @param that : next Item to compare with
+    * @return : Sorted list
+    */
   override def compare(that: Items): Int = (this.price - that.price) intValue
 
+  /**
+    *Table's row type description of the object
+    * @return
+    */
   override def toString: String = s"  $id  |  $vendorId  |  $name  |  $price  |  $quantity  | $category"
 }
 
