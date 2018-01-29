@@ -9,7 +9,7 @@ class Items(
              val category: String
            ) extends Commodities with Ordered[Items] {
   /**
-    *Update the attirbute of the items class
+    *Update the attribute of the items class
     * @param attribute : String value required in lowercase
     * @param newValue : Stringify the value always!!
     * @return : get the update item instance

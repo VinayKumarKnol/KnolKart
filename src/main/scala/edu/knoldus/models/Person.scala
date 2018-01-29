@@ -48,8 +48,11 @@ class Person(
       log.info(s"\nEnter Category : ")
       val category = StdIn.readLine()
       val initialList = database.itemList
-      val id = initialList.max(id)
-      val newItem: Items = new Items(id.id + 1, this.id, name, price, quantity, category)
+      val sortedIds = initialList
+        .sortWith((first, second) => first.id > second.id)
+        .map{ (item) => item.id}
+      val id = if(sortedIds.nonEmpty) sortedIds.head else 0
+      val newItem: Items = new Items(id + 1, this.id, name, price, quantity, category)
       database.addToList("items", newItem)
     }
     else
