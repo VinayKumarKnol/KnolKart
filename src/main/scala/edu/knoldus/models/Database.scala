@@ -14,7 +14,8 @@ class Database {
 
   /**
     * Pre Condition: Updated List
-    * @param query: A Map of (id -> int, vendor -> id(int), category -> String)
+    *
+    * @param query : A Map of (id -> int, vendor -> id(int), category -> String)
     * @return :  List Of Searched item is returned
     */
   def searchItem(query: Map[String, String]): List[Items] = {
@@ -31,8 +32,9 @@ class Database {
 
   /**
     * Pre Condition : Requires an updated list of person
-    *You can search the person by name
-    * @param query: Map( name -> String)
+    * You can search the person by name
+    *
+    * @param query : Map( name -> String)
     * @return
     */
   def searchPerson(query: Map[String, String]): List[Person] = {
@@ -43,8 +45,9 @@ class Database {
   /**
     * Pre Condition: Requires an updated list of items
     *
-    *Search on person through Id
-    * @param query: Map(id -> Int )
+    * Search on person through Id
+    *
+    * @param query : Map(id -> Int )
     * @return : List of Person
     */
   def searchPersonById(query: Map[String, Int]): List[Person] = {
@@ -53,7 +56,8 @@ class Database {
   }
 
   /**
-    *Pre Condition : None
+    * Pre Condition : None
+    *
     * @param whichList : Specify which list to update
     * @param commodity : send the object of that type.
     * @return : Boolean values can be used to check success of the operation
@@ -69,7 +73,8 @@ class Database {
   }
 
   /**
-    *Pre Condition : Before using this operation make sure you have an updated list
+    * Pre Condition : Before using this operation make sure you have an updated list
+    *
     * @param itemsBought : Specify what items you have bought. requires only ids
     * @return : Boolean value can used to check success of the operation
     */
@@ -85,7 +90,8 @@ class Database {
   }
 
   /**
-    *Returns minimal stats about Database: Tolal counts
+    * Returns minimal stats about Database: Tolal counts
+    *
     * @return
     */
   override def toString: String = s"The database has \nItems: ${itemList.size}" +
@@ -95,14 +101,15 @@ class Database {
 
 object Database {
 
-  val list: List[Items] = readFromJSON("items.json").asInstanceOf[List[Items]]
-  val person: List[Person] = readFromJSON("person.json").asInstanceOf[List[Person]]
-  val obj: Database = new Database()
+  val List: List[Items] = readFromJSON("items.json").asInstanceOf[List[Items]]
+  val Person: List[Person] = readFromJSON("person.json").asInstanceOf[List[Person]]
+  val Obj: Database = new Database()
 
   /**
-    *Use it safely. Works with either of the category
+    * Use it safely. Works with either of the category
+    *
     * @param inventory : Send the updated list of commodities.
-    * @param fileName : Name of file to store
+    * @param fileName  : Name of file to store
     * @return : boolean status to check the success of operation
     */
   def writeToJSON(inventory: List[Commodities], fileName: String): Boolean = {
@@ -115,15 +122,16 @@ object Database {
       writer.close()
       true
     } catch {
-      case except: Exception => log.info(s"\nError: ${except.getMessage}")
+      case except: Exception => Log.info(s"\nError: ${except.getMessage}")
         false
     }
   }
 
   /**
-    *Pre Condition: Make sure the file exist or You have performed writeToJson
+    * Pre Condition: Make sure the file exist or You have performed writeToJson
     * Works with either of the category
-    * @param fileName: We need the file name
+    *
+    * @param fileName : We need the file name
     * @return : List of either type of Commodities
     */
   def readFromJSON(fileName: String): List[Commodities] = {
@@ -136,9 +144,8 @@ object Database {
         case "items.json" => read[List[Items]](bufferedSource)
       }
     } catch {
-      case except: Exception => log.info(s"\nError: ${except.getMessage}")
-        List[Commodities]()
-
+      case except: Exception => Log.info(s"\nError: ${except.getMessage}")
+       List[Commodities]()
     }
   }
 

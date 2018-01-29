@@ -21,11 +21,11 @@ object UtilityMethods {
     * @return : List of items satisfying the search
     */
   def searchChoice(choice: Int, database: Database): List[Items] = {
-    log.info(s"\nEnter Search Parameters : ")
+    Log.info(s"\nEnter Search Parameters : ")
     val input: String = StdIn.readLine()
-    log.info(s"\nSort By :\n1. Name\n2. Price")
+    Log.info(s"\nSort By :\n1. Name\n2. Price")
     val attribute: Int = StdIn.readInt()
-    log.info(s"\nSort :\n1. Low To High\n2. High To Low")
+    Log.info(s"\nSort :\n1. Low To High\n2. High To Low")
     val direction: Int = StdIn.readInt()
     (attribute, direction) match {
       case (1, 1) => sortBy("name", getList(choice, input, database.searchItem), "low to high")
@@ -76,6 +76,7 @@ object UtilityMethods {
       case ("price", "low to high") => itemList.sortWith((first, second) => first.price < second.price)
       case ("name", "high to low") => itemList.sortWith((first, second) => first.name > second.name)
       case ("name", "low to high") => itemList.sortWith((first, second) => first.name < second.name)
+      case _ => itemList.sorted
     }
   }
 
