@@ -145,7 +145,7 @@ object Database {
       }
     } catch {
       case except: Exception => Log.info(s"\nError: ${except.getMessage}")
-       List[Commodities]()
+       Nil
     }
   }
 
